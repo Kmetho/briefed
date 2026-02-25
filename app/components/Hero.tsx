@@ -1,3 +1,4 @@
+import Card from "./Card";
 import Button from "./Button";
 
 export default function Hero() {
@@ -14,6 +15,7 @@ export default function Hero() {
           <Button />
         </div>
       </div>
+      <Card content="This is a sample card component to showcase the design." />
     </section>
   );
 }
