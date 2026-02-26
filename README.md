@@ -8,10 +8,10 @@ Brief Builder provides a guided form for clients to fill out, generating a struc
 
 ## Tech Stack
 - Next.js, TypeScript, Tailwind
-- Prisma + PostgreSQL
+- Supabase
 - Clerk Auth
 - Uploadthing for file uploads
-- react-pdf for PDF generation
+- jspdf for PDF generation
 
 ## Features
 ✅ Multi-step guided form
