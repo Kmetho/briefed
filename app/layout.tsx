@@ -20,7 +20,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        variables: {
+          colorPrimary: "var(--primary)",
+          colorPrimaryForeground: "var(--primary-foreground)",
+          colorBackground: "var(--card)", // Clerk uses this for the card container
+          colorForeground: "var(--foreground)",
+          colorMuted: "var(--muted)",
+          colorMutedForeground: "var(--muted-foreground)",
+          colorInput: "var(--input)",
+          colorInputForeground: "var(--foreground)",
+          colorBorder: "var(--border)",
+          colorRing: "var(--ring)",
+          colorDanger: "var(--destructive)",
+          borderRadius: "var(--radius)", // your 0.875rem
+          fontFamily: "var(--font-sans)",
+        },
+      }}
+    >
       <html lang="en">
         <body className={`${inter.variable} antialiased`}>{children}</body>
       </html>
