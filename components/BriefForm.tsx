@@ -49,42 +49,37 @@ export default function BriefForm() {
     setStep(step - 1);
   }
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setIsSubmitting(true);
+async function handleSubmit(e: React.FormEvent) {
+  e.preventDefault();
+  setIsSubmitting(true);
 
-    try {
-      // 1. Upload files first
-      let uploadedUrls: string[] = [];
-      if (formData.moodboardFiles.length > 0) {
-        const uploaded = await startUpload(formData.moodboardFiles);
-        uploadedUrls = uploaded?.map((file) => file.url) || [];
-      }
+  try {
+    // Get existing briefs
+    const briefs = JSON.parse(localStorage.getItem("briefs") || "[]");
 
-      // 2. Save to database
-      const response = await fetch("/api/briefs", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          moodboardUrls: uploadedUrls,
-          moodboardFiles: undefined, // Remove files from payload
-        }),
-      });
+    // Create new brief
+    const newBrief = {
+      id: Date.now().toString(),
+      ...formData,
+      moodboardFiles: undefined, // Remove File objects
+      moodboardUrls: [], // TODO: handle file uploads later
+      status: "completed",
+      createdAt: new Date().toISOString(),
+    };
 
-      if (!response.ok) throw new Error("Failed to create brief");
+    // Save
+    briefs.push(newBrief);
+    localStorage.setItem("briefs", JSON.stringify(briefs));
 
-      const brief = await response.json();
-
-      // 3. Redirect to success page
-      router.push(`/dashboard?success=true`);
-    } catch (error) {
-      console.error("Error creating brief:", error);
-      alert("Failed to create brief. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Redirect
+    router.push("/dashboard?success=true");
+  } catch (error) {
+    console.error("Error creating brief:", error);
+    alert("Failed to create brief. Please try again.");
+  } finally {
+    setIsSubmitting(false);
   }
+}
 
   return (
     <div className="max-w-3xl mx-auto">
